@@ -9,8 +9,6 @@ import static java.lang.Math.sqrt;
 public class Coordinates {
 
     int screenSize;
-    int xnew;
-    int ynew;
 
 
     public Coordinates(int screenSize){
@@ -18,12 +16,12 @@ public class Coordinates {
     }
     public PolarCoordinates getPositionPolar(int xabs, int yabs){
 
-        int r = (int) sqrt(xabs^2+yabs^2);
-        xnew = xabs - r;
-        ynew = yabs + r;
+        int radius = (int) sqrt(xabs^2+yabs^2);
+        int xnew = xabs - radius;
+        int ynew = yabs + radius;
         double phi = atan2(ynew, xnew);
 
-        return new PolarCoordinates(r,phi);
+        return new PolarCoordinates(radius,phi);
 
     }
 }
