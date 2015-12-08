@@ -11,10 +11,12 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * Created by privat on 05.12.2015.
  */
-public class DrawView extends View {
+public class DrawView extends View implements View.OnClickListener{
 
     private int screenSize;
     private Path[] homeScreen;
@@ -22,9 +24,11 @@ public class DrawView extends View {
     private Paint paintDelete;
     private Paint paintTextOutput;
     private Path pathTextoutput;
-    private Path pathTextoutputIn;
     private Bitmap bmpDelete;
     private int textOutputPadding;
+
+    private int offset = -250;
+    private String text = "";
 
     public DrawView(Context context){
         super(context);
@@ -32,7 +36,12 @@ public class DrawView extends View {
         setFocusableInTouchMode(true);
         checkScreenSize();
 
+        setOnClickListener(this);
+
+
     }
+
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -46,7 +55,10 @@ public class DrawView extends View {
         canvas.drawPath(pathTextoutput, paintTextOutput);
 
         paintTextOutput.setColor(Color.BLACK);
-        canvas.drawTextOnPath("Hallo Welt test test", pathTextoutputIn, 0, -7, paintTextOutput);
+        canvas.drawTextOnPath(text, pathTextoutput, offset, -7, paintTextOutput);
+
+
+
 
         for (int i = 0; i<6; i++){
             // hintergrundfarbe fuer die einzelnen buchstaben segmente
@@ -61,8 +73,6 @@ public class DrawView extends View {
             }
             canvas.drawPath(homeScreen[i], paintCircleSegment);
             paintCircleSegment.setColor(Color.BLACK);
-            //canvas.drawText("E", 200, 200, paintCircleSegment);
-            //canvas.drawTextOnPath("E", homeScreen[i], 10, 10, paintCircleSegment);
         }
 
 
@@ -109,14 +119,20 @@ public class DrawView extends View {
         paintTextOutput.setTextAlign(Paint.Align.RIGHT);
 
         pathTextoutput = new Path();
-        pathTextoutput.addArc(0, 0, screenSize * 2, screenSize * 2, 90, 360);
-        pathTextoutputIn = new Path();
-        pathTextoutputIn.addArc(textOutputPadding, textOutputPadding, screenSize * 2-textOutputPadding, screenSize * 2-textOutputPadding, -90, 360);
+        pathTextoutput.addCircle(screenSize, screenSize, screenSize, Path.Direction.CCW);
     }
 
 
     private void checkScreenSize() {
         screenSize = this.getWidth();
         screenSize = screenSize / 2;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        text += "a";
+        invalidate();
+
     }
 }
