@@ -5,6 +5,9 @@
 # Files for the Dalvik VM
 *.dex
 
+# Android Studio Files
+.idea/
+
 # Java class files
 *.class
 
