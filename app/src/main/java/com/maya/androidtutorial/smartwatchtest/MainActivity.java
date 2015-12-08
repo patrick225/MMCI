@@ -3,6 +3,7 @@ package com.maya.androidtutorial.smartwatchtest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -21,7 +22,9 @@ public class MainActivity extends Activity {
             }
         });
 
-        drawView = new DrawView(this);
-        setContentView(drawView);
+        ContentContainer cc = new ContentContainer(this);
+        ViewGroup.LayoutParams lp =
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        setContentView(cc, lp);
     }
 }

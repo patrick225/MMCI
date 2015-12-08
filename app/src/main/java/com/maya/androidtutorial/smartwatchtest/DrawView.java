@@ -131,6 +131,8 @@ public class DrawView extends View implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
+
+
         text += "a";
         invalidate();
 
