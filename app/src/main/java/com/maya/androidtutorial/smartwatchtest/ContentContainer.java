@@ -28,7 +28,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
     private ArrayList<Character> text;
 
-    Coordinates coordinates = new Coordinates(SCREENRADIUS);
+    Coordinates coordinates = new Coordinates(SCREENRADIUS, SCREENRADIUS);
 
     int textPadding;
 
@@ -61,9 +61,13 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         addView(pieAll);
 
 
-        // text
+        // Output text
         circleText = new CircleText(context);
         addView(circleText);
+
+        
+        // character labels
+
 
         setOnTouchListener(this);
 
@@ -142,9 +146,6 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
                 }
                 break;
         }
-
-
-
 
         return true;
     }

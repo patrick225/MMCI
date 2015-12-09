@@ -29,8 +29,6 @@ public class Pie extends View {
 
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
-        paint.setTextSize(100);
-        paint.setTextAlign(Paint.Align.CENTER);
         paint.setAntiAlias(true);
 
         for(int i = 0; i < path.length; i++){
@@ -43,10 +41,13 @@ public class Pie extends View {
             path[i].close();
         }
 
+
+
     }
 
     private void adjustPaint(int piepart) {
 
+        // TODO adjust colours of pieparts
         Colors colors[] = Colors.values();
         paint.setColor(Color.parseColor(String.valueOf(colors[piepart])));
     }
@@ -59,6 +60,20 @@ public class Pie extends View {
 
             canvas.drawPath(path[i], paint);
         }
+
+        Path test = new Path();
+        test.moveTo(ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS);
+        Paint paint1 = new Paint();
+        paint.setTextSize(20);
+        paint.setStyle(Paint.Style.FILL);
+
+
+        canvas.drawText("S", ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS + 10, paint1);
+
+
+
+
+
 
     }
 }
