@@ -13,16 +13,19 @@ import android.view.View;
  */
 public class Pie extends View {
 
-    public final static int TYPE_ALL = 1;
-    public final static int TYPE_ZOOM = 2;
+    public final static int TYPE_ALL = 100;
 
 
     Paint paint;
     Path path[] = new Path[6];
+    int colortype;
 
 
-    public Pie(Context context, int textPadding, int type) {
+    public Pie(Context context, int textPadding, int colortype) {
         super(context);
+
+        this.colortype = colortype;
+
 
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
@@ -40,20 +43,20 @@ public class Pie extends View {
             path[i].close();
         }
 
-
-
-
-
-
     }
 
+    private void adjustPaint(int piepart) {
+
+        Colors colors[] = Colors.values();
+        paint.setColor(Color.parseColor(String.valueOf(colors[piepart])));
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
 
-        Colors colors[] = Colors.values();
         for (int i = 0; i < path.length; i++) {
-            paint.setColor(Color.parseColor(String.valueOf(colors[i])));
+            adjustPaint(i);
+
             canvas.drawPath(path[i], paint);
         }
 
