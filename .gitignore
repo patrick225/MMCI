@@ -7,7 +7,6 @@
 
 #Android Studio files
 .idea/
-app/app.iml
 
 # Java class files
 *.class
