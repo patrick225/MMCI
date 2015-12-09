@@ -33,6 +33,9 @@ public enum Colors {
         public String toString(){
             return "#D9B179";
         }
+    },
+    HANNELORE {
+        public String toString() { return "#D0D0D0"; }
     }
     ;
 }

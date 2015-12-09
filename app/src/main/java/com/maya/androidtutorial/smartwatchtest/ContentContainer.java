@@ -47,7 +47,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
         // white Circle
         Paint paintText = new Paint();
-        paintText.setColor(Color.WHITE);
+        paintText.setColor(Color.parseColor(String.valueOf(Colors.HANNELORE)));
         paintText.setAntiAlias(true);
         paintText.setStyle(Paint.Style.FILL);
         circleTextBackground = new Circle(context, SCREENRADIUS, paintText);
