@@ -1,8 +1,12 @@
 package com.maya.androidtutorial.smartwatchtest;
 
 import android.graphics.Point;
+import android.util.Log;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 /**
@@ -20,12 +24,16 @@ public class Coordinates {
     }
     public PolarCoordinates getPositionPolar(int xabs, int yabs){
 
-        int radius = (int) sqrt(xabs^2+yabs^2);
-        int xnew = xabs - radius;
-        int ynew = yabs + radius;
-        double phi = atan2(ynew, xnew);
+        int radius = (int) sqrt(Math.pow(origin_x - xabs, 2) + Math.pow(origin_y - yabs, 2));
 
-        return new PolarCoordinates(radius,phi);
+        double phi = atan2(yabs - origin_y, xabs - origin_x);
+
+        if (phi > 0) {
+            phi = 2 * Math.PI - phi;
+        }
+        phi = Math.abs(phi);
+
+        return new PolarCoordinates(radius,Math.toDegrees(phi));
 
     }
 
@@ -34,19 +42,23 @@ public class Coordinates {
         this.origin_x = origin_x;
     }
 
+    public void setOrigin(int radius, double angle) {
+        origin_x = (int) (radius * cos(Math.toRadians(angle)));
+        origin_y = (int) (radius * sin(Math.toRadians(angle)));
+
+
+    }
+
     public CartesianCoordinates getPositionRawCartesian(int radius, double angle) {
 
-        // TODO die soll mir kartesiche koordinaten zurückgeben wobei die parameter relativ zum Origin dieser klasse sind
-        // bsp: ich setz mit setOrigin den ursprung auf die mitte des bildschirms und
-        // die funktion gibt mir für radius = 0 und angle = 0 den Punkt (Hälfte des Bildschirms, Hälfte des Bildschirms) zurück
+        int x = (int) (radius * cos(Math.toRadians(angle)));
+        int y = (int) (radius * sin(Math.toRadians(angle)));
 
-        // wenn Origin auf 20, 20 gesetz wurde soll die funktion mit den gleichen parametern wie eben
-        // (20, 20) zurück geben.
 
-        // bei origin auf 20, 20 soll für parameter (radius = 10, angle = 90) der punkt
-        // (10, 20) zurück kommen
+        x += origin_x;
+        y += origin_y;
 
-        return new CartesianCoordinates();
+        return new CartesianCoordinates(x, y);
     }
 
 }

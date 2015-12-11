@@ -60,20 +60,5 @@ public class Pie extends View {
 
             canvas.drawPath(path[i], paint);
         }
-
-        Path test = new Path();
-        test.moveTo(ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS);
-        Paint paint1 = new Paint();
-        paint.setTextSize(20);
-        paint.setStyle(Paint.Style.FILL);
-
-
-        canvas.drawText("S", ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS + 10, paint1);
-
-
-
-
-
-
     }
 }

@@ -4,6 +4,7 @@ package com.maya.androidtutorial.smartwatchtest;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,21 +29,36 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
     private ArrayList<Character> text;
 
-    Coordinates coordinates = new Coordinates(SCREENRADIUS, SCREENRADIUS);
+    Coordinates coordinates;
 
     int textPadding;
+    int deleteButtonRadius;
 
     Circle circleTextBackground;
     Pie pieAll;
     Pie pieSingle;
     CircleText circleText;
+    char[][] chars = {
+            {'E', 'D', 'C', 'B', 'A', 'Ä'},
+            {'?', '_', '.', ':', '-', '!'},
+            {'O', 'Ö', 'N', 'M', 'L', 'K'},
+            {'F', ' ', 'J', 'I', 'H', 'G'},
+            {'P', 'Z', 'Y', 'X', 'R', 'Q'},
+            {'W', 'V', 'U', 'Ü', 'T', 'S'}
+    };
+    CircleCharacters[] circleChars = new CircleCharacters[6];
+    CircleCharacters singleChars;
+
+    int firstPie;
 
     public ContentContainer(Context context) {
         super(context);
-
         this.context = context;
-
         getDisplaySize();
+
+
+
+        coordinates = new Coordinates(SCREENRADIUS, SCREENRADIUS);
         text = new ArrayList<>();
 
         // white Circle
@@ -67,7 +83,24 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
         
         // character labels
+        for (int i = 0; i < chars.length; i++) {
+            CartesianCoordinates center = coordinates.getPositionRawCartesian((int) ((SCREENRADIUS - textPadding) * 0.6), i * 60);
+            circleChars[i] = new CircleCharacters(context, chars[i], center, 25, chars[i][i]);
+            addView(circleChars[i]);
+        }
 
+        // delete Button
+        deleteButtonRadius = SCREENRADIUS / 7;
+        DeleteButton deleteButton = new DeleteButton(context, deleteButtonRadius);
+        Paint circlepaint = new Paint();
+        circlepaint.setColor(Color.parseColor(String.valueOf(Colors.HANNELORE)));
+        circlepaint.setAntiAlias(true);
+        circlepaint.setStyle(Paint.Style.FILL);
+        circlepaint.setAlpha(170);
+        Circle deleteCircle = new Circle(context, deleteButtonRadius, circlepaint);
+
+        addView(deleteCircle);
+        addView(deleteButton);
 
         setOnTouchListener(this);
 
@@ -90,15 +123,28 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         PolarCoordinates pc = coordinates.getPositionPolar((int) event.getX(), (int) event.getY());
 
         int pie = -1;
-        for (int i = 0; i < 6; i++) {
-            if (pc.angle > i * 60 && pc.angle < i * 60 + 60 && pc.radius < SCREENRADIUS - textPadding) {
-                pie = i;
-            }
-        }
+
+        if (pc.radius > SCREENRADIUS - textPadding ||
+            pc.radius < deleteButtonRadius) return pie;
+
+        if (pc.angle > 330 || pc.angle <  30) pie = 0;
+        if (pc.angle >  30 && pc.angle <  90) pie = 5;
+        if (pc.angle >  90 && pc.angle <  150) pie = 4;
+        if (pc.angle > 150 && pc.angle <  210) pie = 3;
+        if (pc.angle > 210 && pc.angle <  270) pie = 2;
+        if (pc.angle > 270 && pc.angle <  330) pie = 1;
 
         return pie;
     }
 
+    private boolean deleteButtonTouched(MotionEvent event) {
+
+        PolarCoordinates coord = coordinates.getPositionPolar((int) event.getX(), (int) event.getY());
+        if (coord.radius < deleteButtonRadius)
+            return true;
+
+        return false;
+    }
 
 
     private void refreshText() {
@@ -116,33 +162,40 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                int piePart = getPiePart(event);
-                if (piePart != -1) {
-                    pieSingle = new Pie(context, textPadding, piePart);
-                    Log.i("action down", "on pie");
+                firstPie = getPiePart(event);
+                if (firstPie != -1) {
+                    pieSingle = new Pie(context, textPadding, firstPie);
+                    singleChars = new CircleCharacters(context, chars[firstPie],
+                            new CartesianCoordinates(SCREENRADIUS, SCREENRADIUS), 80);
+
                     addView(pieSingle);
+                    addView(singleChars);
                 }
-                // TODO clicks on other elements, do action on action up
+                if (deleteButtonTouched(event) && !text.isEmpty()) {
+                    text.remove(text.size() - 1);
+                    refreshText();
+                }
 
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (pieSingle != null) {
-                    // TODO do any feedback
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                Log.i("action up", "everywhere");
                 // check if first click was in range of characters
                 if (pieSingle != null) {
                     removeView(pieSingle);
+                    removeView(singleChars);
                     pieSingle = null;
 
+                    int upPie = getPiePart(event);
 
-
-                    text.add('a');
-                    refreshText();
-
-                    // TODO get Character and save to the current Cursor position
+                    if (upPie != -1) {
+                        char newchar = chars[firstPie][upPie];
+                        if (newchar == '_') newchar = ' ';
+                        text.add(newchar);
+                        refreshText();
+                    }
                 }
                 break;
         }

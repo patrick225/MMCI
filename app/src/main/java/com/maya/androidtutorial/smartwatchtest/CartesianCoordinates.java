@@ -7,4 +7,10 @@ public class CartesianCoordinates {
 
     int x;
     int y;
+
+    public CartesianCoordinates(int x, int y) {
+
+        this.x = x;
+        this.y = y;
+    }
 }
