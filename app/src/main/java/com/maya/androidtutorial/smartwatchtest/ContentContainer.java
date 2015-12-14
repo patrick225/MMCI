@@ -39,12 +39,12 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
     Pie pieSingle;
     CircleText circleText;
     char[][] chars = {
-            {'E', 'D', 'C', 'B', 'A', 'Ä'},
-            {'?', '_', '.', ':', '-', '!'},
-            {'O', 'Ö', 'N', 'M', 'L', 'K'},
-            {'F', ' ', 'J', 'I', 'H', 'G'},
-            {'P', 'Z', 'Y', 'X', 'R', 'Q'},
-            {'W', 'V', 'U', 'Ü', 'T', 'S'}
+            {'E', 'Ä', 'A', 'B', 'C', 'D'},
+            {'W', 'S', 'T', 'Ü', 'U', 'V'},
+            {'P', 'Q', 'R', 'X', 'Y', 'Z'},
+            {'F', 'G', 'H', 'I', 'J', ' '},
+            {'O', 'K', 'L', 'M', 'N', 'Ö'},
+            {'?', '!', '-', ':', '.', '_'}
     };
     CircleCharacters[] circleChars = new CircleCharacters[6];
     CircleCharacters singleChars;
@@ -102,6 +102,12 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         addView(deleteCircle);
         addView(deleteButton);
 
+        // statedisplay
+
+        CharactersetDisplay charDisplay = new CharactersetDisplay(context, SCREENRADIUS - textPadding, textPadding);
+
+        addView(charDisplay);
+
         setOnTouchListener(this);
 
     }
@@ -128,11 +134,11 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
             pc.radius < deleteButtonRadius) return pie;
 
         if (pc.angle > 330 || pc.angle <  30) pie = 0;
-        if (pc.angle >  30 && pc.angle <  90) pie = 5;
-        if (pc.angle >  90 && pc.angle <  150) pie = 4;
+        if (pc.angle >  30 && pc.angle <  90) pie = 1;
+        if (pc.angle >  90 && pc.angle <  150) pie = 2;
         if (pc.angle > 150 && pc.angle <  210) pie = 3;
-        if (pc.angle > 210 && pc.angle <  270) pie = 2;
-        if (pc.angle > 270 && pc.angle <  330) pie = 1;
+        if (pc.angle > 210 && pc.angle <  270) pie = 4;
+        if (pc.angle > 270 && pc.angle <  330) pie = 5;
 
         return pie;
     }

@@ -56,7 +56,7 @@ public class Coordinates {
 
 
         x += origin_x;
-        y += origin_y;
+        y = origin_y - y;
 
         return new CartesianCoordinates(x, y);
     }
