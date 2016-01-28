@@ -2,6 +2,7 @@ package com.maya.androidtutorial.smartwatchtest;
 
 import android.graphics.Point;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
@@ -47,6 +48,20 @@ public class Coordinates {
         origin_y = (int) (radius * sin(Math.toRadians(angle)));
 
 
+    }
+
+
+    public static int getAngle (MotionEvent.PointerCoords p1, MotionEvent.PointerCoords p2) {
+
+        double phi = atan2(p1.y - p2.y, p1.x - p2.x);
+
+        if (phi > 0) {
+            phi = 2 * Math.PI - phi;
+        }
+        phi = Math.abs(phi);
+        phi = Math.toDegrees(phi);
+
+        return (int) phi;
     }
 
     public CartesianCoordinates getPositionRawCartesian(int radius, double angle) {

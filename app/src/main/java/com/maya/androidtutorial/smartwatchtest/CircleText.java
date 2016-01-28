@@ -16,6 +16,8 @@ public class CircleText extends View {
     Path path;
     Paint paint;
 
+    float rotation;
+
     String text = "";
 
     public CircleText (Context context) {
@@ -28,6 +30,7 @@ public class CircleText extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(20);
         paint.setTextAlign(Paint.Align.RIGHT);
+        rotation = 0;
 
         path = new Path();
         path.addCircle(ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS, Path.Direction.CCW);
@@ -39,10 +42,16 @@ public class CircleText extends View {
         invalidate();
     }
 
+    public void rotate (int angle) {
+        rotation = angle;
+        invalidate();
+    }
+
 
     @Override
     public void onDraw(Canvas canvas) {
 
+        canvas.rotate(rotation);
         canvas.drawTextOnPath(text, path, -250, -7, paint);
 
     }
