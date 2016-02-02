@@ -169,31 +169,38 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         MotionEvent.PointerCoords p1 = new MotionEvent.PointerCoords();
         MotionEvent.PointerCoords p2 = new MotionEvent.PointerCoords();
 
-        if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
+        if (event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
             if (id1 == -1) {
-                id1 = event.getPointerId(0);
+                id1 = event.getPointerId(event.getActionIndex());
             } else if (id2 == -1) {
-                id2 = event.getPointerId(1);
+                id2 = event.getPointerId(event.getActionIndex());
             }
+            if (event.getPointerCount() == 2 && id2 != -1) {
+                event.getPointerCoords(id1, p1);
+                event.getPointerCoords(id2, p2);
+                angle = Coordinates.getAngle(p1, p2);
+                return;
+            }
+        }
+        if (event.getPointerCount() == 2) {
             event.getPointerCoords(id1, p1);
             event.getPointerCoords(id2, p2);
-            angle = Coordinates.getAngle(p1, p2);
-            return;
+
+            int rotate = Coordinates.getAngle(p1, p2);
+
+            circleText.rotate(rotate-angle);
+            angle = rotate;
+
         }
-        event.getPointerCoords(id1, p1);
-        event.getPointerCoords(id2, p2);
-
-        int rotate = Coordinates.getAngle(p1, p2);
-
-        circleText.rotate(rotate);
-
-
 
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            id1 = event.getPointerId(event.getActionIndex());
+        }
 
         if (event.getPointerCount() == 2) {
             handleMultitouchEvent(event);

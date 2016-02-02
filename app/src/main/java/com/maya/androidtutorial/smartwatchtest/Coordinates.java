@@ -55,11 +55,13 @@ public class Coordinates {
 
         double phi = atan2(p1.y - p2.y, p1.x - p2.x);
 
-        if (phi > 0) {
-            phi = 2 * Math.PI - phi;
+        phi = phi * 360 / (2*Math.PI);
+
+        if (phi < 0) {
+            phi += 360;
         }
-        phi = Math.abs(phi);
-        phi = Math.toDegrees(phi);
+
+        Log.i("angle", "" + phi);
 
         return (int) phi;
     }
