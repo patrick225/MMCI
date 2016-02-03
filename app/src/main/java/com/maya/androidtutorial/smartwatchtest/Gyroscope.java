@@ -28,7 +28,7 @@ public class Gyroscope implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
 
         if (System.currentTimeMillis() - lastKick > 1000) {
-            if (event.values[0] > 3.0) {
+            if (event.values[0] > 2.0) {
                 lastKick  = System.currentTimeMillis();
                 cc.switchCharset(KICK_REAR);
             }
