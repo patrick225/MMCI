@@ -17,7 +17,7 @@ public class Gyroscope extends Activity{
     private Sensor mSensor;
 
     public void Gyroscope(){
-
+        sensorData();
     }
 
     public void sensorData(){

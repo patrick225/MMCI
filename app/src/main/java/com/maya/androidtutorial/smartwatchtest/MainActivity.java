@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
         setContentView(cc, lp);
 
         gestureDetector = new GestureDetectorCompat(this, new LongPressListener());
+
+        Gyroscope gyroscope = new Gyroscope();
     }
 
 
