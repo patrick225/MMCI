@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.wearable.view.DismissOverlayView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,7 +26,6 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
     public static int SCREENRADIUS;
     Context context;
-
 
     private ArrayList<Character> text;
 
@@ -55,7 +55,6 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         super(context);
         this.context = context;
         getDisplaySize();
-
 
 
         coordinates = new Coordinates(SCREENRADIUS, SCREENRADIUS);
@@ -111,7 +110,6 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         setOnTouchListener(this);
 
     }
-
 
 
     private void getDisplaySize() {
@@ -249,5 +247,12 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         }
 
         return true;
+    }
+
+    public String getResultString () {
+        Character[] textAr = text.toArray(new Character[text.size()]);
+        String text = (new String(ArrayUtils.toPrimitive(textAr)));
+        Log.i("text", text);
+        return text;
     }
 }

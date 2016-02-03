@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.maya.androidtutorial.smartwatchtest.IncomingMessageActivity"
+    tools:deviceIds="wear_round">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Neue Nachricht von Carlos!"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="70px"
+        android:textSize="20px"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextResult"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:hint="Click Answer to type Text"
+        android:textSize="15px"
+        android:onClick="answer"
+        android:editable="false"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Senden"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/editTextResult"
+        android:paddingBottom="100px"
+        android:onClick="sent"
+        />
+
+</RelativeLayout>
