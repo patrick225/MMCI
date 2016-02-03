@@ -1,7 +1,10 @@
 package com.maya.androidtutorial.smartwatchtest;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.wearable.view.DismissOverlayView;
@@ -24,6 +27,9 @@ public class MainActivity extends Activity {
     private GestureDetectorCompat gestureDetector;
     private ContentContainer cc;
 
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +49,19 @@ public class MainActivity extends Activity {
 
         gestureDetector = new GestureDetectorCompat(this, new LongPressListener());
 
-        Gyroscope gyroscope = new Gyroscope();
+        sensorData();
+
     }
 
+    public void sensorData(){
+        Gyroscope listener = new Gyroscope(cc);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
 
 
     @Override

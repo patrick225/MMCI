@@ -4,8 +4,6 @@ package com.maya.androidtutorial.smartwatchtest;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.support.wearable.view.DismissOverlayView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,6 +23,10 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
 
     public static int SCREENRADIUS;
+    private static final int CHARSET_CHARBIG = 1;
+    private static final int CHARSET_CHARSMALL = 2;
+    private static final int CHARSET_NUMBERS = 3;
+
     Context context;
 
     private ArrayList<Character> text;
@@ -34,11 +36,14 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
     int textPadding;
     int deleteButtonRadius;
 
+    int currentCharset;
+
     Circle circleTextBackground;
     Pie pieAll;
     Pie pieSingle;
     CircleText circleText;
-    char[][] chars = {
+
+    char[][] bigChars = {
             {'E', 'Ä', 'A', 'B', 'C', 'D'},
             {'W', 'S', 'T', 'Ü', 'U', 'V'},
             {'P', 'Q', 'R', 'X', 'Y', 'Z'},
@@ -46,6 +51,27 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
             {'O', 'K', 'L', 'M', 'N', 'Ö'},
             {'?', '!', '-', ':', '.', '_'}
     };
+
+    char[][] smallChars = {
+            {'e', 'ä', 'a', 'b', 'c', 'd'},
+            {'w', 's', 't', 'ü', 'u', 'v'},
+            {'p', 'q', 'r', 'x', 'y', 'z'},
+            {'f', 'g', 'h', 'i', 'j', ' '},
+            {'o', 'k', 'l', 'm', 'n', 'ö'},
+            {'?', '!', '-', ':', '.', '_'}
+    };
+
+    char[][] numbersChars = {
+            {'1', '6', '[', ']', '(', ')'},
+            {'"', '2', '7', '+', ';', '*'},
+            {'#', '&', '3', '8', '%', '$'},
+            {'=', '<', '>', '4', '9', '|'},
+            {'/', '\\', '€', '^', '5', '0'},
+            {'?', '!', '-', ':', '.', '_'}
+    };
+
+    char[][] currentChars;
+
     CircleCharacters[] circleChars = new CircleCharacters[6];
     CircleCharacters singleChars;
 
@@ -56,7 +82,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         this.context = context;
         getDisplaySize();
 
-
+        currentChars = getCharset(CHARSET_CHARSMALL);
         coordinates = new Coordinates(SCREENRADIUS, SCREENRADIUS);
         text = new ArrayList<>();
 
@@ -82,9 +108,9 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
         
         // character labels
-        for (int i = 0; i < chars.length; i++) {
+        for (int i = 0; i < currentChars.length; i++) {
             CartesianCoordinates center = coordinates.getPositionRawCartesian((int) ((SCREENRADIUS - textPadding) * 0.6), i * 60);
-            circleChars[i] = new CircleCharacters(context, chars[i], center, 25, chars[i][i]);
+            circleChars[i] = new CircleCharacters(context, currentChars[i], center, 25, currentChars[i][i]);
             addView(circleChars[i]);
         }
 
@@ -211,7 +237,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
                 firstPie = getPiePart(event);
                 if (firstPie != -1) {
                     pieSingle = new Pie(context, textPadding, firstPie);
-                    singleChars = new CircleCharacters(context, chars[firstPie],
+                    singleChars = new CircleCharacters(context, currentChars[firstPie],
                             new CartesianCoordinates(SCREENRADIUS, SCREENRADIUS), 80);
 
                     addView(pieSingle);
@@ -237,7 +263,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
                     int upPie = getPiePart(event);
 
                     if (upPie != -1) {
-                        char newchar = chars[firstPie][upPie];
+                        char newchar = currentChars[firstPie][upPie];
                         if (newchar == '_') newchar = ' ';
                         text.add(newchar);
                         refreshText();
@@ -254,5 +280,60 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         String text = (new String(ArrayUtils.toPrimitive(textAr)));
         Log.i("text", text);
         return text;
+    }
+
+    public void switchCharset(int kick) {
+
+        switch (kick) {
+            case Gyroscope.KICK_FRONT:
+                    if (currentCharset == CHARSET_CHARBIG) {
+                        currentCharset = CHARSET_CHARSMALL;
+                    } else if (currentCharset == CHARSET_NUMBERS) {
+
+                    } else {
+                        currentCharset = CHARSET_CHARBIG;
+                    }
+
+                break;
+            case Gyroscope.KICK_REAR:
+                if (currentCharset == CHARSET_NUMBERS) {
+                    currentCharset = CHARSET_CHARSMALL;
+                } else if (currentCharset == CHARSET_CHARBIG) {
+
+                } else {
+                    currentCharset = CHARSET_NUMBERS;
+                }
+                break;
+        }
+        updateCharset();
+
+    }
+
+    private void updateCharset() {
+
+        currentChars = getCharset(currentCharset);
+
+        // character labels
+        for (int i = 0; i < currentChars.length; i++) {
+            removeView(circleChars[i]);
+            CartesianCoordinates center = coordinates.getPositionRawCartesian((int) ((SCREENRADIUS - textPadding) * 0.6), i * 60);
+            circleChars[i] = new CircleCharacters(context, currentChars[i], center, 25, currentChars[i][i]);
+            addView(circleChars[i]);
+        }
+
+    }
+
+    private char[][] getCharset(int charset) {
+        switch (charset) {
+            case CHARSET_CHARSMALL:
+                return smallChars;
+            case CHARSET_CHARBIG:
+                return bigChars;
+            case CHARSET_NUMBERS:
+                return numbersChars;
+
+        }
+
+        return null;
     }
 }
