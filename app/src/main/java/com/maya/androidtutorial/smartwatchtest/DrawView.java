@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 /**
  * Created by privat on 05.12.2015.
+ *
+ * testklasse, wird nicht mehr benötigt
  */
 public class DrawView extends View implements View.OnClickListener{
 

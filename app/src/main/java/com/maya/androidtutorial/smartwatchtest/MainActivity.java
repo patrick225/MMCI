@@ -19,6 +19,13 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
+
+/**
+ * Created by patrick on 09.12.15.
+ *
+ * erzeugt content container und bearbeitet den long click
+ */
 public class MainActivity extends Activity {
 
     private TextView mTextView;
@@ -53,6 +60,9 @@ public class MainActivity extends Activity {
 
     }
 
+    /**
+     * registiert einen gyroscop listener
+     */
     public void sensorData(){
         Gyroscope listener = new Gyroscope(cc);
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -69,6 +79,9 @@ public class MainActivity extends Activity {
         return gestureDetector.onTouchEvent(event) || super.dispatchTouchEvent(event);
     }
 
+    /**
+     * ermittelt ob ein long click vorliegt und beendet die activity
+     */
     public class LongPressListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public void onLongPress(MotionEvent event) {

@@ -11,6 +11,8 @@ import android.util.Log;
 
 /**
  * Created by nicolas on 03.02.2016.
+ *
+ * registiert handgelenkdrehungen mittels gyroskop daten
  */
 public class Gyroscope implements SensorEventListener {
 

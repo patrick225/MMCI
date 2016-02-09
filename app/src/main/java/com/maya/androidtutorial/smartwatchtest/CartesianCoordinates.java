@@ -2,6 +2,8 @@ package com.maya.androidtutorial.smartwatchtest;
 
 /**
  * Created by patrick on 09.12.15.
+ *
+ * äquivalent zur klasse Point(javaintern)
  */
 public class CartesianCoordinates {
 

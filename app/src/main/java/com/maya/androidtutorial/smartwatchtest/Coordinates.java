@@ -12,6 +12,8 @@ import static java.lang.Math.sqrt;
 
 /**
  * Created by patrick on 08.12.15.
+ *
+ * hilfsklasse, um koordinaten in verschiedene systeme mit verschiedenen mittelpunkten umzurechnen
  */
 public class Coordinates {
 
@@ -60,9 +62,6 @@ public class Coordinates {
         if (phi < 0) {
             phi += 360;
         }
-
-        Log.i("angle", "" + phi);
-
         return (int) phi;
     }
 

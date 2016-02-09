@@ -2,6 +2,8 @@ package com.maya.androidtutorial.smartwatchtest;
 
 /**
  * Created by privat on 14.11.2015.
+ *
+ * definiert die hintergrundfarben der oberfläche
  */
 public enum Colors {
     SIGFRIED{

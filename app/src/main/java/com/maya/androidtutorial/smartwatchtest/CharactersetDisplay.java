@@ -10,6 +10,8 @@ import android.view.View;
 
 /**
  * Created by patrick on 14.12.15.
+ *
+ * Zeigt die verfügbaren charsets oben am display an
  */
 public class CharactersetDisplay extends View {
 
@@ -46,7 +48,10 @@ public class CharactersetDisplay extends View {
 
     }
 
-
+    /**
+     * setzt den akutellen zeichensatz
+     * @param charset
+     */
     public void setCurrentCharset (int charset) {
         this.currentCharset = charset;
         invalidate();

@@ -10,6 +10,8 @@ import android.view.View;
 
 /**
  * Created by patrick on 09.12.15.
+ *
+ * erzeugt die am kreis gebeugte textausgabe
  */
 public class CircleText extends View {
 
@@ -38,11 +40,19 @@ public class CircleText extends View {
 
     }
 
+    /**
+     * setzt den text
+     * @param text
+     */
     public void setText(String text) {
         this.text = text;
         invalidate();
     }
 
+    /**
+     * dreht um eingegeben winkel
+     * @param angle
+     */
     public void rotate (int angle) {
         rotation = rotation +  (float) (angle / 1.5);
         invalidate();

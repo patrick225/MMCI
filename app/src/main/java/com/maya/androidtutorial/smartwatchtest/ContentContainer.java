@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 /**
  * Created by patrick on 08.12.15.
+ *
+ * hauptklasse, behandelt touchinputs und erzeugt oberfläche
  */
 public class ContentContainer extends RelativeLayout implements View.OnTouchListener {
 
@@ -149,7 +151,11 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         SCREENRADIUS = metrics.widthPixels / 2;
     }
 
-
+    /**
+     * liefert gedrücktes sechstel zurück
+     * @param event
+     * @return
+     */
     private int getPiePart (MotionEvent event) {
 
         PolarCoordinates pc = coordinates.getPositionPolar((int) event.getX(), (int) event.getY());
@@ -169,6 +175,11 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         return pie;
     }
 
+    /**
+     * überpüft ob löschenbutton gedrückt wurde
+     * @param event
+     * @return
+     */
     private boolean deleteButtonTouched(MotionEvent event) {
 
         PolarCoordinates coord = coordinates.getPositionPolar((int) event.getX(), (int) event.getY());
@@ -277,13 +288,20 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
         return true;
     }
 
+    /**
+     *liefert eingegebenen text als string
+     * @return
+     */
     public String getResultString () {
         Character[] textAr = text.toArray(new Character[text.size()]);
         String text = (new String(ArrayUtils.toPrimitive(textAr)));
-        Log.i("text", text);
         return text;
     }
 
+    /**
+     * initiiert charset wechsel bei handgelenkdrehung
+     * @param kick richtung der drehung
+     */
     public void switchCharset(int kick) {
 
         switch (kick) {

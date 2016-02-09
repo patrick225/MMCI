@@ -10,6 +10,8 @@ import android.view.View;
 
 /**
  * Created by patrick on 08.12.15.
+ *
+ * erzeugt die angezeigten sechstel der oberfläche
  */
 public class Pie extends View {
 
@@ -45,6 +47,10 @@ public class Pie extends View {
 
     }
 
+    /**
+     * nicht vollständige funktion
+     * @param piepart
+     */
     private void adjustPaint(int piepart) {
 
         // TODO adjust colours of pieparts

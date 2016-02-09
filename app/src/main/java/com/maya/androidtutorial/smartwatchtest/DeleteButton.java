@@ -9,6 +9,8 @@ import android.view.View;
 
 /**
  * Created by patrick on 10.12.15.
+ *
+ * zeichnet den löschenbutton auf der oberfläche
  */
 public class DeleteButton extends View {
 

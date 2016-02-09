@@ -13,6 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Created by patrick on 17.01.16.
+ *
+ * launcher activity, stellt szenario bereit
+ */
 public class IncomingMessageActivity extends Activity {
 
     private TextView mTextView;

@@ -10,6 +10,8 @@ import android.view.View;
 
 /**
  * Created by patrick on 10.12.15.
+ *
+ * erzeugt die im kreis angeordneten buchstaben der in sechstel unterteilten oberfläche
  */
 public class CircleCharacters extends View {
 

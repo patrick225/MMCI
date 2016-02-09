@@ -9,6 +9,8 @@ import android.view.View;
 
 /**
  * Created by privat on 05.12.2015.
+ *
+ * zeichnet einen kreis mit übergebenem radius und übergebener farbe
  */
 public class Circle extends View {
 
