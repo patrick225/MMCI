@@ -17,6 +17,10 @@ public class CharactersetDisplay extends View {
     int radius;
     int width;
 
+    private int currentCharset;
+
+    Path pathLeft, pathRight, pathTextLeft, pathTextRight;
+
     public CharactersetDisplay(Context context, int radius, int width) {
         super(context);
         this.radius = radius;
@@ -24,13 +28,33 @@ public class CharactersetDisplay extends View {
 
         coord = new Coordinates(ContentContainer.SCREENRADIUS, ContentContainer.SCREENRADIUS);
 
+        createPathLeft();
+        createPathRight();
+
+        currentCharset = ContentContainer.CHARSET_CHARSMALL;
+
+        pathTextLeft = new Path();
+        CartesianCoordinates point = coord.getPositionRawCartesian(radius, 110);
+        pathTextLeft.moveTo(point.x, point.y);
+        pathTextLeft.addArc(width, width, ContentContainer.SCREENRADIUS * 2 - width, ContentContainer.SCREENRADIUS * 2 - width, -110, 20);
+
+
+        pathTextRight = new Path();
+        point = coord.getPositionRawCartesian(radius, 70);
+        pathTextRight.moveTo(point.x, point.y);
+        pathTextRight.addArc(width, width, ContentContainer.SCREENRADIUS * 2 - width, ContentContainer.SCREENRADIUS * 2 - width, -90, 20);
+
     }
 
 
-    @Override
-    public void onDraw(Canvas canvas) {
+    public void setCurrentCharset (int charset) {
+        this.currentCharset = charset;
+        invalidate();
+    }
 
 
+
+    private void createPathLeft () {
         Path path = new Path();
         CartesianCoordinates point;
 
@@ -47,14 +71,73 @@ public class CharactersetDisplay extends View {
 
         point = coord.getPositionRawCartesian(radius, 90);
         path.lineTo(point.x, point.y);
+        pathLeft = path;
+    }
+
+    private void createPathRight () {
+
+        Path path = new Path();
+        CartesianCoordinates point;
+
+        point = coord.getPositionRawCartesian(radius, 90);
+        path.moveTo(point.x, point.y);
+
+        path.addArc(width, width, ContentContainer.SCREENRADIUS * 2 - width, ContentContainer.SCREENRADIUS * 2 - width, -90, 20);
+
+
+        point = coord.getPositionRawCartesian(radius + width, 70);
+        path.lineTo(point.x, point.y);
+
+        path.addArc(0, 0, ContentContainer.SCREENRADIUS * 2, ContentContainer.SCREENRADIUS * 2, -70, -20);
+
+        point = coord.getPositionRawCartesian(radius, 90);
+        path.lineTo(point.x, point.y);
+        pathRight = path;
+    }
+
+
+    @Override
+    public void onDraw(Canvas canvas) {
 
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(15);
 
-        canvas.drawPath(path, paint);
+        canvas.drawPath(pathLeft, paint);
+        canvas.drawPath(pathRight, paint);
 
-//        paint.setColor(Color.WHITE);
-//        canvas.drawTextOnPath("ABC", path, 0, 0, paint);
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+
+        canvas.drawPath(pathLeft, paint);
+        canvas.drawPath(pathRight, paint);
+
+
+
+        String textLeft = "";
+        String textRight = "";
+        switch (currentCharset) {
+
+            case ContentContainer.CHARSET_CHARSMALL:
+                textLeft = "ABC";
+                textRight = "12#";
+                break;
+            case ContentContainer.CHARSET_CHARBIG:
+                textLeft = "abc";
+                textRight = "";
+                break;
+            case ContentContainer.CHARSET_NUMBERS:
+                textLeft = "";
+                textRight = "abc";
+                break;
+        }
+
+        canvas.drawTextOnPath(textLeft, pathTextLeft, -0, -5, paint);
+        canvas.drawTextOnPath(textRight, pathTextRight, -0, -5, paint);
+
+
+
     }
 }

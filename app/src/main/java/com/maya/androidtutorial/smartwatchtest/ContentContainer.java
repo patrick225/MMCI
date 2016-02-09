@@ -23,9 +23,9 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
 
     public static int SCREENRADIUS;
-    private static final int CHARSET_CHARBIG = 1;
-    private static final int CHARSET_CHARSMALL = 2;
-    private static final int CHARSET_NUMBERS = 3;
+    public static final int CHARSET_CHARBIG = 1;
+    public static final int CHARSET_CHARSMALL = 2;
+    public static final int CHARSET_NUMBERS = 3;
 
     Context context;
 
@@ -74,6 +74,8 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
     CircleCharacters[] circleChars = new CircleCharacters[6];
     CircleCharacters singleChars;
+
+    CharactersetDisplay charDisplay;
 
     int firstPie;
 
@@ -129,7 +131,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
 
         // statedisplay
 
-        CharactersetDisplay charDisplay = new CharactersetDisplay(context, SCREENRADIUS - textPadding, textPadding);
+        charDisplay = new CharactersetDisplay(context, SCREENRADIUS - textPadding, textPadding);
 
         addView(charDisplay);
 
@@ -305,6 +307,7 @@ public class ContentContainer extends RelativeLayout implements View.OnTouchList
                 }
                 break;
         }
+        charDisplay.setCurrentCharset(currentCharset);
         updateCharset();
 
     }
