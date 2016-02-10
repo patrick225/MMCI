@@ -8,5 +8,5 @@
  execute "gradlew" from commandline
  
  How to install:
- Copy MMCI\app\build\outputs\apk\debug.apk to your smartphone. Make sure to allow extern apps in your settings.
+ Copy MMCI\app\build\outputs\apk\app-debug.apk to your smartphone. Make sure to allow apps from unknown sources in your settings.
  Execute the .apk on your mobile phone.
